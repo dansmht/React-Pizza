@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
+
 const SortPopup = ({ items }) => {
   const sortRef = useRef(null);
   const [isVisiblePopup, setIsVisiblePopup] = useState(false);
   const [activeItem, setActiveItem] = useState(0);
-  const activeLabel = items[activeItem];
+  const activeLabel = items[activeItem].name;
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
@@ -53,9 +54,9 @@ const SortPopup = ({ items }) => {
       </div>
       {isVisiblePopup && <div className="sort__popup">
         <ul>
-          {items.map((name, index) => (
+          {items.map(({ name, type }, index) => (
             <li
-              key={`${name}_${index}`}
+              key={`${type}_${index}`}
               className={isActive(index)}
               onClick={() => selectActiveItem(index)}
             >

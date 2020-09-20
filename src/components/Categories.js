@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCategory } from '../redux/actions/filters';
 
 const Categories = ({ items }) => {
-  const [activeItem, setActiveItem] = useState(null);
+  const dispatch = useDispatch();
+
+  const activeCategory = useSelector(({ filters }) => filters.categoryIndex);
 
   const isActive = (index) => {
-    return activeItem === index ? 'active' : '';
+    return activeCategory === index ? 'active' : '';
   };
 
   const selectActiveItem = (index) => {
-    setActiveItem(index);
+    dispatch(setCategory(index));
   };
 
   return (
