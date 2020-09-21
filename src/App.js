@@ -11,7 +11,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch('./db.json')
+    fetch('http://localhost:3001//db.json')
       .then(res => res.json())
       .then(data => {
         dispatch(setPizzas(data.pizzas));
@@ -23,9 +23,7 @@ const App = () => {
       <Header />
       <div className="content">
         <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
+          <Route exact path="/" component={Home} />
           <Route exact path="/cart" component={Cart} />
           <Redirect to="/" />
         </Switch>

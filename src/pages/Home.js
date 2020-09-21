@@ -1,8 +1,8 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { Categories, SortPopup } from '../components';
-import Pizza from '../components/Pizza';
+import { Categories, Pizza, SortPopup } from '../components';
+import { setCategory, setSortBy } from '../redux/actions/filters';
 
 const categories = ['Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
 const sortItems = [
@@ -12,13 +12,32 @@ const sortItems = [
 ];
 
 const Home = () => {
+  const dispatch = useDispatch();
+
   const items = useSelector(({ pizzas }) => pizzas.items);
+  const { categoryIndex, sortBy } = useSelector(({ filters }) => filters);
+
+  const selectActiveCategory = (index) => {
+    dispatch(setCategory(index));
+  };
+
+  const selectActiveSortType = (sortBy) => {
+    dispatch(setSortBy(sortBy));
+  };
 
   return (
     <div className="container">
       <div className="content__top">
-        <Categories items={categories} />
-        <SortPopup items={sortItems} />
+        <Categories
+          items={categories}
+          activeCategory={categoryIndex}
+          onClickCategoryType={selectActiveCategory}
+        />
+        <SortPopup
+          items={sortItems}
+          activeSortType={sortBy}
+          onClickSortType={selectActiveSortType}
+        />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">

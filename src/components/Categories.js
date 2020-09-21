@@ -1,18 +1,8 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setCategory } from '../redux/actions/filters';
 
-const Categories = ({ items }) => {
-  const dispatch = useDispatch();
-
-  const activeCategory = useSelector(({ filters }) => filters.categoryIndex);
-
+const Categories = React.memo(({ items, activeCategory, onClickCategoryType }) => {
   const isActive = (index) => {
     return activeCategory === index ? 'active' : '';
-  };
-
-  const selectActiveItem = (index) => {
-    dispatch(setCategory(index));
   };
 
   return (
@@ -20,7 +10,7 @@ const Categories = ({ items }) => {
       <ul>
         <li
           className={isActive(null)}
-          onClick={() => selectActiveItem(null)}
+          onClick={() => onClickCategoryType(null)}
         >
           Все
         </li>
@@ -28,7 +18,7 @@ const Categories = ({ items }) => {
           <li
             key={`${name}_${index}`}
             className={isActive(index)}
-            onClick={() => selectActiveItem(index)}
+            onClick={() => onClickCategoryType(index)}
           >
             {name}
           </li>
@@ -36,6 +26,6 @@ const Categories = ({ items }) => {
       </ul>
     </div>
   );
-};
+});
 
 export default Categories;
