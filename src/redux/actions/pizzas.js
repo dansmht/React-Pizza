@@ -4,10 +4,12 @@ export const SET_LOADED = 'SET_LOADED';
 export const setPizzas = items => ({ type: SET_PIZZAS, items });
 export const setLoaded = isLoaded => ({ type: SET_LOADED, isLoaded });
 
-export const fetchPizzas = () => async dispatch => {
+export const fetchPizzas = (category, { type: sortBy, order }) => async dispatch => {
   dispatch(setLoaded(false))
-  const response = await fetch('http://localhost:3001//db.json');
-  const { pizzas } = await response.json();
+
+  const queryString = `?${category !== null ? `category=${category}&` : ''}_sort=${sortBy}&_order=${order}`
+  const response = await fetch(`http://localhost:3001/pizzas${queryString}`);
+  const pizzas = await response.json();
 
   dispatch(setPizzas(pizzas));
 };

@@ -8,8 +8,8 @@ import { fetchPizzas } from '../redux/actions/pizzas';
 const categories = ['Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
 const sortItems = [
   { name: 'популярности', type: 'popular', order: 'desc' },
-  { name: 'цене', type: 'price', order: 'desc' },
-  { name: 'алфавиту', type: 'alphabet', order: 'asc' },
+  { name: 'цене', type: 'price', order: 'asc' },
+  { name: 'алфавиту', type: 'name', order: 'asc' },
 ];
 
 const Home = () => {
@@ -19,7 +19,7 @@ const Home = () => {
   const { categoryIndex, sortBy } = useSelector(({ filters }) => filters);
 
   useEffect(() => {
-    dispatch(fetchPizzas());
+    dispatch(fetchPizzas(categoryIndex, sortBy));
   }, [categoryIndex, sortBy, dispatch]);
 
   const selectActiveCategory = (index) => {
@@ -40,7 +40,7 @@ const Home = () => {
         />
         <SortPopup
           items={sortItems}
-          activeSortType={sortBy}
+          activeSortType={sortBy.type}
           onClickSortType={selectActiveSortType}
         />
       </div>
