@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Categories, Pizza, SortPopup } from '../components';
+import { Categories, Pizza, PizzaLoader, SortPopup } from '../components';
 import { setCategory, setSortBy } from '../redux/actions/filters';
 import { fetchPizzas } from '../redux/actions/pizzas';
 
@@ -15,12 +15,12 @@ const sortItems = [
 const Home = () => {
   const dispatch = useDispatch();
 
-  const { items } = useSelector(({ pizzas }) => pizzas);
+  const { items, isLoaded } = useSelector(({ pizzas }) => pizzas);
   const { categoryIndex, sortBy } = useSelector(({ filters }) => filters);
 
   useEffect(() => {
-    dispatch(fetchPizzas())
-  }, [categoryIndex, sortBy, dispatch])
+    dispatch(fetchPizzas());
+  }, [categoryIndex, sortBy, dispatch]);
 
   const selectActiveCategory = (index) => {
     dispatch(setCategory(index));
@@ -46,7 +46,9 @@ const Home = () => {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
-        {items.map((item) => <Pizza key={item.id} {...item} />)}
+        {isLoaded
+          ? items.map((item) => <Pizza key={item.id} {...item} />)
+          : Array(12).fill(0).map((_, index) => <PizzaLoader key={index} />)}
       </div>
     </div>
   );
