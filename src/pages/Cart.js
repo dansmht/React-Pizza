@@ -116,15 +116,16 @@ function Cart() {
             </div>
           </div>
           <div className="content__items">
-            {addedPizzas.map((obj) => (
+            {addedPizzas.map(({ id, name, type, size, imageUrl }) => (
               <CartItem
-                key={obj.id}
-                id={obj.id}
-                name={obj.name}
-                type={obj.type}
-                size={obj.size}
-                totalPrice={items[obj.id].totalPrice}
-                totalCount={items[obj.id].items.length}
+                key={id}
+                id={id}
+                name={name}
+                type={type}
+                size={size}
+                imageUrl={imageUrl}
+                totalPrice={items[id].totalPrice}
+                totalCount={items[id].items.length}
                 onRemove={onRemoveItem}
                 onMinus={onMinusItem}
                 onPlus={onPlusItem}

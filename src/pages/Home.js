@@ -53,13 +53,16 @@ const Home = () => {
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
         {isLoaded
-          ? items.map((item) => (
-            <Pizza
-              key={item.id}
-              onClickAddPizza={handleAddPizzaToCart}
-              addedPizzasToCart={cartItems[item.id] && cartItems[item.id].length}
-              {...item}
-            />))
+          ? items.map((item) => {
+            const addedPizzasToCart = cartItems[item.id] && cartItems[item.id].items && cartItems[item.id].items.length;
+            return (
+              <Pizza
+                key={item.id}
+                onClickAddPizza={handleAddPizzaToCart}
+                addedPizzasToCart={addedPizzasToCart}
+                {...item}
+              />);
+          })
           : Array(12).fill(0).map((_, index) => <PizzaLoader key={index} />)}
       </div>
     </div>
