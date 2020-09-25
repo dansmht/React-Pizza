@@ -1,19 +1,32 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
+import { Button } from '../index';
 
-const Pizza = ({ imageUrl, name, types, sizes, price, category, rating }) => {
+const Pizza = ({ id, imageUrl, name, types, sizes, price, onClickAddPizza, addedPizzasToCart }) => {
   const availableTypes = ['тонкое', 'традиционное'];
   const availableSizes = [26, 30, 40];
 
-  const [activeType, setActiveType] = useState(types[0]);
+  const [activeTypeIndex, setActiveTypeIndex] = useState(types[0]);
   const [activeSize, setActiveSize] = useState(sizes[0]);
 
   const onSelectType = (index) => {
-    setActiveType(index);
+    setActiveTypeIndex(index);
   };
 
   const onSelectSize = (index) => {
     setActiveSize(index);
+  };
+
+  const onAddPizza = () => {
+    const pizza = {
+      id,
+      name,
+      imageUrl,
+      price,
+      size: activeSize,
+      type: availableTypes[activeTypeIndex],
+    };
+    onClickAddPizza(pizza);
   };
 
   return (
@@ -31,7 +44,7 @@ const Pizza = ({ imageUrl, name, types, sizes, price, category, rating }) => {
               key={type}
               onClick={() => onSelectType(index)}
               className={classNames({
-                active: activeType === index,
+                active: activeTypeIndex === index,
                 disabled: !types.includes(index),
               })}
             >
@@ -56,7 +69,11 @@ const Pizza = ({ imageUrl, name, types, sizes, price, category, rating }) => {
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} ₽</div>
-        <div className="button button--outline button--add">
+        <Button
+          onClick={onAddPizza}
+          className="button button--add"
+          outline
+        >
           <svg
             width="12"
             height="12"
@@ -70,8 +87,8 @@ const Pizza = ({ imageUrl, name, types, sizes, price, category, rating }) => {
             />
           </svg>
           <span>Добавить</span>
-          <i>2</i>
-        </div>
+          {addedPizzasToCart && <i>{addedPizzasToCart}</i>}
+        </Button>
       </div>
     </div>
   );

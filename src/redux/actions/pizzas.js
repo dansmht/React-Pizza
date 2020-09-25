@@ -8,7 +8,7 @@ export const fetchPizzas = (category, { type: sortBy, order }) => async dispatch
   dispatch(setLoaded(false))
 
   const queryString = `?${category !== null ? `category=${category}&` : ''}_sort=${sortBy}&_order=${order}`
-  const response = await fetch(`http://localhost:3001/pizzas${queryString}`);
+  const response = await fetch(`/pizzas${queryString}`);
   const pizzas = await response.json();
 
   dispatch(setPizzas(pizzas));
